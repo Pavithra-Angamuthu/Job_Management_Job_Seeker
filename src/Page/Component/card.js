@@ -41,7 +41,6 @@ function CardDetails(props) {
     <React.Fragment>
       <div className="flex grid grid-cols-3 gap-7 text-left">
         {props.data.map((item, i) => {
-          console.log(  item.result, item.result.filter((data) => data.job_seeker_id ===  details._id ),i)
           return (
             <Card className="flex flex-col justify-between">
               <CardContent onClick={()=>{navigate(`/job/${item._id}`)}}>

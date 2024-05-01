@@ -40,12 +40,9 @@ function ViewApplication() {
 
   async function getOpeningBasedOnid() {
     await JobOpeningConfigAPI.getOpeningsBasedonId({ id: id }).then((res) => {
-      console.log(res);
       setApplication(res.data.data[0]);
     });
   }
-
-  console.log("->>asdasd", application);
 
   useEffect(() => {
     getOpeningBasedOnid();

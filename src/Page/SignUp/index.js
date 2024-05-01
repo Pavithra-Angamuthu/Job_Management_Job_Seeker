@@ -65,7 +65,6 @@ function SignUp() {
         confirm_password: btoa(values?.confirm_password),
       };
       const response = await JobSeekerConfigAPI.createJobSeeker(payload);
-      console.log(response.data);
       if (response.data.status) {
         navigate("/login");
       } else {

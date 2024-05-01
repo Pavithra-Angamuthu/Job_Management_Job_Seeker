@@ -51,7 +51,6 @@ function Login() {
             password: btoa(values?.password)
         }
         try{
-          console.log("--> payload :",payload)
       const response = await JobSeekerConfigAPI.loginJobSeeker(payload);
     
       if (response.data.status) {

@@ -50,7 +50,7 @@ function Apply(props) {
           ...values,
         };
         const response = await JobApplyConfigAPI.createApply(values);
-        console.log(response.data);
+      
         if (response.data.status) {
           props.close();
         } else {
