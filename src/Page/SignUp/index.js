@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import EmployerConfigAPI from "../../Service/jobseeker";
 import { Snackbar } from "@mui/material";
 import JobSeekerConfigAPI from "../../Service/jobseeker";
+import { useSelector } from "react-redux";
 
 function SignUp() {
   const navigate = useNavigate();
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [error, setError] = useState("");
+  const {details} = useSelector(state => state.auth)
 
   const initialState = {
     email: "",
@@ -20,6 +21,14 @@ function SignUp() {
     phone_number: "",
     confirm_password: "",
   };
+
+  useEffect(()=>{
+    if(!details.token){
+      navigate("/signup")
+    }else{
+      navigate("/")
+    }
+  },[details])
 
   const SignUpDetails = { ...initialState };
 

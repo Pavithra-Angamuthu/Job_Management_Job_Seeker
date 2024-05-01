@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { Snackbar } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { AuthActions, login } from "../../Redux/Auth/action";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthActions } from "../../Redux/Auth/action";
 import JobSeekerConfigAPI from "../../Service/jobseeker";
 
 function Login() {
@@ -14,6 +14,7 @@ function Login() {
   const dispatch =useDispatch();
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [error, setError] = useState("");
+  const {details} = useSelector(state => state.auth)
 
   const initialState = {
     email: "",
@@ -21,6 +22,16 @@ function Login() {
   };
 
   const SignUpDetails = { ...initialState };
+
+  useEffect(()=>{
+    if(!details.token){
+      navigate("/login")
+    }else{
+      setTimeout(()=>{
+        navigate("/");
+       }, 700)
+    }
+  },[details])
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -42,11 +53,14 @@ function Login() {
         try{
           console.log("--> payload :",payload)
       const response = await JobSeekerConfigAPI.loginJobSeeker(payload);
-      console.log(response.data);
+    
       if (response.data.status) {
        
-        dispatch(AuthActions.login(response.data.data));
-        navigate("/");
+         dispatch(AuthActions.login(response.data.data));
+         setTimeout(()=>{
+          navigate("/");
+         }, 700)
+       
       } else {
         setSnackBarOpen(true);
         setError(response.data.message);

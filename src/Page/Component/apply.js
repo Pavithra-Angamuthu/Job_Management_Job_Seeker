@@ -1,33 +1,17 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Drawer,
-  Chip,
-  MenuItem,
-  Select,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  TextareaAutosize,
-  Box,
-  Typography,
-  Snackbar,
-} from "@mui/material";
+import { Button, TextField, Snackbar } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import JobApplyConfigAPI from "../../Service/jobapply.js";
 
 function Apply(props) {
-  const [selectSpecialization, setSelectSpecialization] = React.useState([]);
-  const [tags, setTags] = React.useState([]);
-  const [tagInput, setTagInput] = React.useState("");
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [error, setError] = useState("");
   const { details } = useSelector((state) => state.auth);
 
   const initialState = {
-    job_opening_id:  props.item._id,
+    job_opening_id: props.item._id,
     job_seeker_id: details._id,
     name: "",
     qualification: "",
@@ -46,9 +30,13 @@ function Apply(props) {
     passed_out_year: Yup.string().required("Passed out year is required"),
     experience: Yup.string().required("Experience is required"),
     email: Yup.string().email("Invalid Email").required("Email is required"),
-    phone_number: Yup.string().required("Phone Number is required").matches(/^[6-9]\d{9}$/, "Invalid Phone number"),
-    resume: Yup.string().required("Resume is required").min(100, "Resume must be at least 100 characters")
-    .max(2000, "Resume cannot exceed 2000 characters"),
+    phone_number: Yup.string()
+      .required("Phone Number is required")
+      .matches(/^[6-9]\d{9}$/, "Invalid Phone number"),
+    resume: Yup.string()
+      .required("Resume is required")
+      .min(100, "Resume must be at least 100 characters")
+      .max(2000, "Resume cannot exceed 2000 characters"),
   });
 
   const formik = useFormik({
@@ -206,12 +194,13 @@ function Apply(props) {
           )}
         </div>
 
-        <div className="flex flex-col justify-start">
+        <div className="col-span-2">
           <p>Resume</p>
           <TextField
             id="Resume"
-            multiple
+            multiline
             rows={4}
+            className="w-full"
             placeholder="Enter the Resume"
             variant="outlined"
             size="small"
@@ -230,7 +219,6 @@ function Apply(props) {
         </div>
       </div>
       <div class="flex gap-5 justify-end">
-        
         <Button
           variant="contained"
           className="b-0 "

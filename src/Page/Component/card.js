@@ -3,15 +3,16 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Button, Drawer } from "@mui/material";
+import { Button, Chip, Drawer } from "@mui/material";
 import Apply from "./apply";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom/dist";
 
 function CardDetails(props) {
-  const [open, setOpen] = React.useState(false);
   const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
   const [selectedJob, setSelectJob] = useState({});
   const { details } = useSelector((state) => state.auth);
+  const navigate =useNavigate("")
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,29 +25,60 @@ function CardDetails(props) {
   }, []);
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    props.setOpen(true);
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    props.setOpen(false);
   };
+
+
+  const truncate = (str, max, len) => {
+    return str.length > max ? str.substring(0, len) + "..." : str;
+}
 
   return (
     <React.Fragment>
-      <div className="flex grid grid-cols-3 gap-7">
+      <div className="flex grid grid-cols-3 gap-7 text-left">
         {props.data.map((item, i) => {
           console.log(  item.result, item.result.filter((data) => data.job_seeker_id ===  details._id ),i)
           return (
-            <Card sx={{ maxWidth: 345 }}>
-              <CardContent>
+            <Card className="flex flex-col justify-between">
+              <CardContent onClick={()=>{navigate(`/job/${item._id}`)}}>
                 <Typography gutterBottom variant="h6" component="div">
                   {item.job_title}
                 </Typography>
+                <div>
+              <Chip label={item.department} style={{ margin: "5px" }} />
+              <Chip
+                label={item.specialization}
+                style={{ margin: "5px" }}
+              />
+              <Chip label={item.location} style={{ margin: "5px" }} />
+              {item.is_remote ? (
+                <Chip label={"Remote"} style={{ margin: "5px" }} />
+              ) : null}
+
+              <Chip
+                label={item.experience}
+                style={{ margin: "5px" }}
+                experience
+              />
+              {
+                item?.keywords?.map(data=>{
+                    return <Chip
+                    label={data}
+                    style={{ margin: "5px" }}
+                  />
+                })
+              }
+            </div>
+            <div className="h-0.5 bg-slate-300 my-3"></div>
                 <Typography variant="body2" color="text.secondary">
-                  {item.job_description}
+               { truncate(item.job_description, 100, 100)} 
                 </Typography>
               </CardContent>
-              <CardActions>
+              <CardActions className="bottom-0">
                 <Button
                   size="small"
                   className="w-full b-0 text-right"
@@ -95,7 +127,7 @@ function CardDetails(props) {
           },
         }}
         anchor={"right"}
-        open={open}
+        open={props.open}
         onClose={() => {
           handleDrawerClose();
         }}

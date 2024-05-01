@@ -1,4 +1,4 @@
-import { LOGIN } from "./actionTypes";
+import { LOGIN, NOT_LOGIN } from "./actionTypes";
 
 
 const login = (data) => {
@@ -13,9 +13,21 @@ const login = (data) => {
     }
 }
 
-export { login };
+
+const logout = () => {
+    const logout = () => {
+        return {
+            type: NOT_LOGIN
+        }
+    }
+    return (dispatch) => {
+        dispatch(logout());
+    }
+}
+
 
 
 export const AuthActions = {
-    login
+    login,
+    logout
 }

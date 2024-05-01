@@ -11,6 +11,15 @@ const JobOpeningConfigAPI = {
     }
   },
 
+  getOpeningsBasedonId: async (payload) => {
+    try {
+      const res = await Get(`${BASE_URL_Opening}/id?id=${payload.id}`,);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+
 //   loginEmployer: async (payload) => {
 //     try {
 //       const res = await Get(`${BASE_URL_Opening}/login?email=${payload.business_email}&password=${payload.password}`);

@@ -9,7 +9,7 @@ function App() {
     <div className="App">
     <Router>
         <Routes>
-          <Route path="/" element={<AdminWrapper />} />
+          <Route exact path="/*" element={<AdminWrapper />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp  />} />
         </Routes>
