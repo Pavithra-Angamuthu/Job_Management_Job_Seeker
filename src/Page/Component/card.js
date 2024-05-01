@@ -34,7 +34,8 @@ function CardDetails(props) {
   return (
     <React.Fragment>
       <div className="flex grid grid-cols-3 gap-7">
-        {props.data.map((item) => {
+        {props.data.map((item, i) => {
+          console.log(  item.result, item.result.filter((data) => data.job_seeker_id ===  details._id ),i)
           return (
             <Card sx={{ maxWidth: 345 }}>
               <CardContent>
@@ -53,10 +54,13 @@ function CardDetails(props) {
                     setSelectJob(item);
                     handleDrawerOpen();
                   }}
-                  disabled={!details.token}
+                  disabled={!details.token ||  item.result.filter((seeker) => seeker.job_seeker_id ===  details._id  ).length > 0 }
                   variant="contained"
                 >
-                  Apply
+                  {
+                    item.result.filter((seeker) => seeker.job_seeker_id ===  details._id  ).length > 0 ? "Applied" :"Apply"
+                  }
+                  
                 </Button>
               </CardActions>
             </Card>

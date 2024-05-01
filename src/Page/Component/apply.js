@@ -26,7 +26,6 @@ function Apply(props) {
   const [error, setError] = useState("");
   const { details } = useSelector((state) => state.auth);
 
-  console.log("--> details  ", details)
   const initialState = {
     job_opening_id:  props.item._id,
     job_seeker_id: details._id,

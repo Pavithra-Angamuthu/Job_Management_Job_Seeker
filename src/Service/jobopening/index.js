@@ -2,9 +2,9 @@ import { Get, Post } from "../axios";
 let BASE_URL_Opening= "opening";
 const JobOpeningConfigAPI = {
 
-  getOpeningsBasedOnEmp: async (payload) => {
+  getOpenings: async (payload) => {
     try {
-      const res = await Get(`${BASE_URL_Opening}/emp`,);
+      const res = await Get(`${BASE_URL_Opening}/seeker`,);
       return res;
     } catch (error) {
       throw error;

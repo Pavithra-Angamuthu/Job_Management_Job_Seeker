@@ -25,8 +25,7 @@ function Dashboard() {
 
 
   async function getOpeningBasedOnEmp(){
-    console.log("-->> asd")
-    await JobOpeningConfigAPI.getOpeningsBasedOnEmp({}).then(res=>{
+    await JobOpeningConfigAPI.getOpenings({}).then(res=>{
         console.log(res)
         setOpeningList(res.data.data)
     })
