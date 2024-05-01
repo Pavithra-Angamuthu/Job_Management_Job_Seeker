@@ -8,6 +8,9 @@ import { Snackbar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthActions } from "../../Redux/Auth/action";
 import JobSeekerConfigAPI from "../../Service/jobseeker";
+import { IconButton, InputAdornment } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,6 +18,7 @@ function Login() {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [error, setError] = useState("");
   const {details} = useSelector(state => state.auth)
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const initialState = {
     email: "",
@@ -22,6 +26,12 @@ function Login() {
   };
 
   const SignUpDetails = { ...initialState };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   useEffect(()=>{
     if(!details.token){
@@ -106,6 +116,25 @@ function Login() {
                 label="Password"
                 variant="outlined"
                 size="small"
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? (
+                          <VisibilityOffIcon />
+                        ) : (
+                          <VisibilityIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 value={formik?.values?.password}
                 onChange={(e) => {
                   formik.setFieldValue("password", e.target.value);

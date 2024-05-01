@@ -7,12 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { Snackbar } from "@mui/material";
 import JobSeekerConfigAPI from "../../Service/jobseeker";
 import { useSelector } from "react-redux";
+import { IconButton, InputAdornment } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function SignUp() {
   const navigate = useNavigate();
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [error, setError] = useState("");
   const {details} = useSelector(state => state.auth)
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const initialState = {
     email: "",
@@ -31,6 +35,12 @@ function SignUp() {
   },[details])
 
   const SignUpDetails = { ...initialState };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -128,6 +138,25 @@ function SignUp() {
                 variant="outlined"
                 size="small"
                 value={formik?.values?.password}
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? (
+                          <VisibilityOffIcon />
+                        ) : (
+                          <VisibilityIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={(e) => {
                   formik.setFieldValue("password", e.target.value);
                 }}
@@ -147,6 +176,7 @@ function SignUp() {
                 label="Confirm Password"
                 variant="outlined"
                 size="small"
+                type={ "password"}
                 value={formik?.values?.confirm_password}
                 onChange={(e) => {
                   formik.setFieldValue("confirm_password", e.target.value);
