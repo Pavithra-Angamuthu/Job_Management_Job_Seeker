@@ -51,9 +51,7 @@ function Dashboard() {
 
   return (
     <React.Fragment>
-      {!details.token ? (
-        <p className="text-xl">Please sign-in access the portal</p>
-      ) : openingList.length> 0? (
+    
         <>
           <div className="flex justify-between pb-5">
             <TextField
@@ -193,9 +191,9 @@ function Dashboard() {
               setPage={setPage}
               page={page}
             />
-          ) : null}
-        </>) : <p  className="text-xl">No Job openings are found</p>
-      }
+          ) : <p  className="text-xl">No Job openings are found</p>}
+         </> 
+      
     </React.Fragment>
   );
 }

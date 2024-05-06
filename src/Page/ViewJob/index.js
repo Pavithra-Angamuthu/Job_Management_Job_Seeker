@@ -7,6 +7,7 @@ import {
   CardContent,
   Chip,
   Drawer,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import JobOpeningConfigAPI from "../../Service/jobopening";
@@ -19,6 +20,7 @@ function ViewApplication() {
   const [open, setOpen] = React.useState(false);
   const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
   const { details } = useSelector((state) => state.auth);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -62,7 +64,10 @@ function ViewApplication() {
                 size="small"
                 className="text-right"
                 onClick={() => {
+                  if(details.token)
                   handleDrawerOpen();
+                else
+                setSnackBarOpen(true)
                 }}
                 disabled={
                   application?.result?.filter(
@@ -95,14 +100,9 @@ function ViewApplication() {
                 style={{ margin: "5px" }}
                 experience
               />
-              {
-                application?.keywords?.map(data=>{
-                    return <Chip
-                    label={data}
-                    style={{ margin: "5px" }}
-                  />
-                })
-              }
+              {application?.keywords?.map((data) => {
+                return <Chip label={data} style={{ margin: "5px" }} />;
+              })}
             </div>
             <div className="h-0.5 bg-slate-300 my-5"></div>
 
@@ -149,6 +149,14 @@ function ViewApplication() {
             <Apply title="Add" close={handleDrawerClose} item={application} />
           </div>
         </Drawer>
+        <Snackbar
+          open={snackBarOpen}
+          autoHideDuration={6000}
+          onClose={() => {
+            setSnackBarOpen(false);
+          }}
+          message="Please Sign-In to Apply"
+        />
       </div>
     </React.Fragment>
   );
